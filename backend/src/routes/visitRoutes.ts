@@ -1,6 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const { recordVisit, getStats } = require("../controllers/visitController");
+import express, { Router } from "express";
+import { recordVisit, getStats } from "../controllers/visitController";
+
+const router: Router = express.Router();
 
 /**
  * @route   GET /api/visits/:countryCode
@@ -16,4 +17,4 @@ router.get("/visits/:countryCode", recordVisit);
  */
 router.get("/stats", getStats);
 
-module.exports = router;
+export default router;

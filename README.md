@@ -1,13 +1,13 @@
 # Website Visit Tracker
 
-A full-stack application to track website visits by country, built with Node.js, Express, Redis, and React.
+A full-stack TypeScript application to track website visits by country, built with Node.js, Express, Redis, and React.
 
 ## Project Structure
 
 This project consists of two main parts:
 
-- **Backend**: A Node.js REST API with Redis storage
-- **Frontend**: A React web application
+- **Backend**: A Node.js/TypeScript REST API with Redis storage
+- **Frontend**: A React/TypeScript web application
 
 ## Features
 
@@ -16,6 +16,7 @@ This project consists of two main parts:
 - Visualize visit data with interactive charts
 - High-performance design (supports 1,000 requests per second)
 - Scalable architecture
+- Fully typed with TypeScript
 
 ## Prerequisites
 
@@ -62,7 +63,20 @@ This will start the backend, frontend, and Redis services together. The applicat
    NODE_ENV=development
    ```
 
-4. Start the backend server:
+4. Build the TypeScript code:
+
+   ```
+   npm run build
+   ```
+
+5. Start the backend server:
+
+   ```
+   npm start
+   ```
+
+   Or for development:
+
    ```
    npm run dev
    ```
@@ -88,6 +102,7 @@ This will start the backend, frontend, and Redis services together. The applicat
    ```
 
 4. Start the frontend development server:
+
    ```
    npm start
    ```
@@ -111,6 +126,20 @@ GET /api/visits/us
 ```
 GET /api/stats
 ```
+
+## Technology Stack
+
+- **Backend**:
+
+  - Node.js with Express
+  - TypeScript for type safety
+  - Redis for high-performance data storage
+  - Jest for testing
+
+- **Frontend**:
+  - React with TypeScript
+  - Chart.js for data visualization
+  - Axios for API communication
 
 ## Performance Considerations
 

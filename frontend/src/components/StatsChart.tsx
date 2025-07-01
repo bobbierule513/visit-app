@@ -7,8 +7,22 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+
+// Define types
+interface StatsChartProps {
+  stats: Record<string, number>;
+  loading: boolean;
+  error: string | null;
+}
+
+interface StatItem {
+  code: string;
+  name: string;
+  count: number;
+}
 
 // Register ChartJS components
 ChartJS.register(
@@ -21,7 +35,7 @@ ChartJS.register(
 );
 
 // Country name mapping
-const countryNames = {
+const countryNames: Record<string, string> = {
   us: "United States",
   ru: "Russia",
   de: "Germany",
@@ -35,14 +49,14 @@ const countryNames = {
   // Add more as needed
 };
 
-const StatsChart = ({ stats, loading, error }) => {
+const StatsChart: React.FC<StatsChartProps> = ({ stats, loading, error }) => {
   // If no stats or empty object, return null
   if (loading || error || !stats || Object.keys(stats).length === 0) {
     return null;
   }
 
   // Convert stats object to array for sorting
-  const statsArray = Object.entries(stats)
+  const statsArray: StatItem[] = Object.entries(stats)
     .map(([code, count]) => ({
       code,
       name: countryNames[code] || code.toUpperCase(),
@@ -66,11 +80,11 @@ const StatsChart = ({ stats, loading, error }) => {
   };
 
   // Chart options
-  const options = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        position: "top" as const,
       },
       title: {
         display: true,

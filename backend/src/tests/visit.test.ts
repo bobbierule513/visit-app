@@ -1,6 +1,6 @@
-const request = require("supertest");
-const redis = require("redis");
-const app = require("../server");
+import request from "supertest";
+import redis from "redis";
+import app from "../server";
 
 // Mock Redis client
 jest.mock("redis", () => {

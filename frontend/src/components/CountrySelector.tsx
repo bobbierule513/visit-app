@@ -1,8 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent, ChangeEvent } from "react";
 import { recordVisit } from "../services/api";
 
+// Define types
+interface Country {
+  code: string;
+  name: string;
+}
+
+interface VisitResponse {
+  success: boolean;
+  countryCode: string;
+  count: number;
+}
+
+interface CountrySelectorProps {
+  onVisitRecorded?: (result: VisitResponse) => void;
+}
+
 // List of countries with their codes
-const countries = [
+const countries: Country[] = [
   { code: "us", name: "United States" },
   { code: "ru", name: "Russia" },
   { code: "de", name: "Germany" },
@@ -16,16 +32,18 @@ const countries = [
   // Add more countries as needed
 ];
 
-const CountrySelector = ({ onVisitRecorded }) => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const CountrySelector: React.FC<CountrySelectorProps> = ({
+  onVisitRecorded,
+}) => {
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!selectedCountry) {

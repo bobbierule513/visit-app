@@ -4,11 +4,22 @@ import StatsTable from "./components/StatsTable";
 import StatsChart from "./components/StatsChart";
 import { getVisitStats } from "./services/api";
 
+// Define types
+interface VisitResponse {
+  success: boolean;
+  countryCode: string;
+  count: number;
+}
+
+interface StatsData {
+  [countryCode: string]: number;
+}
+
 function App() {
-  const [stats, setStats] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [stats, setStats] = useState<StatsData>({});
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState<number>(0);
 
   // Fetch stats on component mount and when refreshKey changes
   useEffect(() => {
@@ -36,7 +47,7 @@ function App() {
   };
 
   // Handle successful visit recording
-  const handleVisitRecorded = () => {
+  const handleVisitRecorded = (result: VisitResponse) => {
     // Refresh stats after a short delay
     setTimeout(() => {
       setRefreshKey((prevKey) => prevKey + 1);

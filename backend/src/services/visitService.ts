@@ -1,4 +1,4 @@
-const { getRedisClient } = require("../config/redis");
+import { getRedisClient } from "../config/redis";
 
 // Redis key for storing visit counts
 const VISITS_KEY = "website:visits:countries";
@@ -8,7 +8,7 @@ const VISITS_KEY = "website:visits:countries";
  * @param {string} countryCode - ISO country code (e.g., 'us', 'ru')
  * @returns {Promise<number>} - New count for the country
  */
-const updateVisit = async (countryCode) => {
+const updateVisit = async (countryCode: string): Promise<number> => {
   try {
     if (!countryCode || typeof countryCode !== "string") {
       throw new Error("Invalid country code");
@@ -34,15 +34,15 @@ const updateVisit = async (countryCode) => {
 
 /**
  * Get all visit statistics
- * @returns {Promise<Object>} - Object with country codes as keys and visit counts as values
+ * @returns {Promise<Record<string, number>>} - Object with country codes as keys and visit counts as values
  */
-const getVisitStats = async () => {
+const getVisitStats = async (): Promise<Record<string, number>> => {
   try {
     const redisClient = getRedisClient();
     const stats = await redisClient.hGetAll(VISITS_KEY);
 
     // Convert string values to numbers
-    const formattedStats = {};
+    const formattedStats: Record<string, number> = {};
     for (const [country, count] of Object.entries(stats)) {
       formattedStats[country] = parseInt(count, 10);
     }
@@ -54,7 +54,4 @@ const getVisitStats = async () => {
   }
 };
 
-module.exports = {
-  updateVisit,
-  getVisitStats,
-};
+export { updateVisit, getVisitStats };

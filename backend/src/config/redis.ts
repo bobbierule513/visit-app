@@ -1,17 +1,19 @@
-const redis = require("redis");
-require("dotenv").config();
+import { createClient, RedisClientType } from "redis";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Create Redis client
-let redisClient;
+let redisClient: RedisClientType | null = null;
 
-const initRedisClient = async () => {
+const initRedisClient = async (): Promise<RedisClientType> => {
   try {
-    redisClient = redis.createClient({
+    redisClient = createClient({
       url: process.env.REDIS_URL,
     });
 
     // Redis error handling
-    redisClient.on("error", (err) => {
+    redisClient.on("error", (err: Error) => {
       console.error("Redis Error:", err);
     });
 
@@ -27,14 +29,11 @@ const initRedisClient = async () => {
 };
 
 // Get Redis client instance
-const getRedisClient = () => {
+const getRedisClient = (): RedisClientType => {
   if (!redisClient) {
     throw new Error("Redis client not initialized");
   }
   return redisClient;
 };
 
-module.exports = {
-  initRedisClient,
-  getRedisClient,
-};
+export { initRedisClient, getRedisClient };
